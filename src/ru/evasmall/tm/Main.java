@@ -1,7 +1,7 @@
 package ru.evasmall.tm;
 
-import ru.evasmall.tm.entuty.Person;
-import ru.evasmall.tm.entuty.PersonChild;
+import ru.evasmall.tm.entity.Person;
+import ru.evasmall.tm.entity.PersonChild;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

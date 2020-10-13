@@ -1,4 +1,4 @@
-package ru.evasmall.tm.entuty;
+package ru.evasmall.tm.entity;
 
 import java.time.LocalDate;
 
