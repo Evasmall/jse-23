@@ -1,7 +1,9 @@
 package ru.evasmall.tm;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,22 +19,20 @@ public class ListSubjects {
         }
         //Определение типа объекта.
         Class<?> clazz = subjects.get(0).getClass();
-        //Проверка списка объектов на принадлежность к одному типу.
-        for (Object subject : subjects) {
-            if (subject.getClass() != clazz) {
-                throw new IllegalArgumentException("THE LIST CONTAINS OBJECTS OF DIFFERENT TYPES. FAIL.");
-            }
-        }
-
         //Определение свойств всех полей объекта.
         List<List<Description>> listDescriptions = new ArrayList<>();
         for (Object subject : subjects) {
             List<Description> descriptions = new ArrayList<>();
-            clazz = subject.getClass();
+            Class<?> clazzSubject = subject.getClass();
+            //Проверка списка объектов на принадлежность к одному типу.
+            if (clazzSubject != clazz) {
+                throw new IllegalArgumentException("THE LIST CONTAINS OBJECTS OF DIFFERENT TYPES. FAIL.");
+            }
+
             //Проверка на родительские классы.
-            while (clazz != null) {
+            while (clazzSubject != null) {
                 //Структурный разбор полей объекта.
-                Field[] fields = clazz.getDeclaredFields();
+                Field[] fields = clazzSubject.getDeclaredFields();
                 boolean hasValue = true;
                 for (Field field : fields) {
                     try {
@@ -45,7 +45,7 @@ public class ListSubjects {
                         logger.log(Level.SEVERE,e.getMessage());
                     }
                 }
-                clazz = clazz.getSuperclass();
+                clazzSubject = clazzSubject.getSuperclass();
             }
             listDescriptions.add(descriptions);
         }
